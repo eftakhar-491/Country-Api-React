@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
+
+import { Theme } from "../context/Theme";
 
 export default function CountryCard({
   flag,
@@ -7,9 +9,15 @@ export default function CountryCard({
   name,
   region,
 }) {
+  const theme = useContext(Theme);
+  console.log(theme.isDark);
   return (
     <>
-      <section className="cursor-pointer w-[280px] shadow-xl p-3">
+      <section
+        className={`cursor-pointer w-[280px] shadow-xl p-3 ${
+          theme.isDark && "bg-[#2b3945] text-white"
+        }`}
+      >
         <img className="w-full" src={flag} alt={name} />
         <h1 className="mt-2 text-lg font-bold">{name}</h1>
         <div className="text-sm font-semibold">
