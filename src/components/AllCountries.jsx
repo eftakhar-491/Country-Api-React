@@ -1,10 +1,21 @@
 import React, { useContext, useEffect, useState } from "react";
 import CountryCard from "./CountryCard";
-import useFetchData from "../Hooks/useFetchData";
+
 import { Theme } from "../context/Theme";
 
 export default function AllCountries() {
-  const allData = useFetchData("https://restcountries.com/v3.1/all");
+  const [allData, setAllData] = useState([]);
+  useEffect(() => {
+    (async () => {
+      fetch("https://restcountries.com/v3.1/all")
+        .then((res) => res.json())
+        .then((data) => {
+          setAllData(data);
+        });
+    })();
+  }, []);
+
+  console.log(allData);
   const theme = useContext(Theme);
 
   return (
@@ -14,7 +25,8 @@ export default function AllCountries() {
           theme.isDark && "bg-[#202c37]"
         }`}
       >
-        {allData.map((item, i) => (
+        {/* <CountryDetails /> */}
+        {allData?.map((item, i) => (
           <CountryCard
             key={i}
             flag={item?.flags?.png}
@@ -22,6 +34,7 @@ export default function AllCountries() {
             region={item?.region}
             population={item?.population}
             name={item?.name?.common}
+            fullDetails={item}
           />
         ))}
       </main>

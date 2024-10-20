@@ -1,8 +1,10 @@
 import React, { useContext } from "react";
 
 import { Theme } from "../context/Theme";
+import { Link } from "react-router-dom";
 
 export default function CountryCard({
+  fullDetails,
   flag,
   capital,
   population,
@@ -10,26 +12,35 @@ export default function CountryCard({
   region,
 }) {
   const theme = useContext(Theme);
-  console.log(theme.isDark);
+  function moreDetails(data) {
+    console.log(data);
+  }
   return (
     <>
-      <section
-        className={`cursor-pointer w-[280px] shadow-xl p-3 ${
-          theme.isDark && "bg-[#2b3945] text-white"
-        }`}
-      >
-        <img className="w-full" src={flag} alt={name} />
-        <h1 className="mt-2 text-lg font-bold">{name}</h1>
-        <div className="text-sm font-semibold">
-          Population : <span>{population}</span>
-        </div>
-        <div className="text-sm font-semibold">
-          Region : <span>{region}</span>
-        </div>
-        <div className="text-sm font-semibold">
-          Capital : <span>{capital}</span>
-        </div>
-      </section>
+      <Link to={`/country/${name}`}>
+        <section
+          onClick={() => moreDetails(fullDetails)}
+          className={` cursor-pointer w-[280px] shadow-xl p-4 rounded-lg ${
+            theme.isDark && "bg-[#2b3945] text-white"
+          }`}
+        >
+          <img
+            className="h-40 w-full rounded-lg"
+            src={flag}
+            alt={`${name} Flag `}
+          />
+          <h1 className="mt-3 mb-4 text-lg font-bold">{name}</h1>
+          <div className="text-sm font-semibold">
+            Population : <span>{population}</span>
+          </div>
+          <div className="text-sm font-semibold">
+            Region : <span>{region}</span>
+          </div>
+          <div className="text-sm font-semibold">
+            Capital : <span>{capital}</span>
+          </div>
+        </section>
+      </Link>
     </>
   );
 }
